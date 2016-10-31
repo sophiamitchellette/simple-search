@@ -66,14 +66,21 @@
   ; resolve propertly.
   (ns simple-search.experiment)
   (print-experimental-results
-   (run-experiment [(with-meta
-                      (partial core/hill-climber core/mutate-answer core/score)
-                      {:label "hill_climber_cliff_score"})
-                    (with-meta
-                      (partial core/hill-climber core/mutate-answer core/penalized-score)
-                      {:label "hill_climber_penalized_score"})
-                    (with-meta (partial core/random-search core/score)
-                      {:label "random_search"})]
+   (run-experiment [;(with-meta
+                    ;  (partial core/hill-climber core/mutate-answer core/score)
+                    ;  {:label "hill_climber_cliff_score"})
+                    ;(with-meta
+                     ; (partial core/random-restart-hill-climber 5 core/mutate-answer core/score)
+                    ;  {:label "random_restart_hill_climber_cliff_score"})
+                     (with-meta
+                      (partial core/random-restart-hill-climber 20 core/mutate-answer core/penalized-score)
+                      {:label "random_restart_hill_climber_penalized_score"})
+                    ;(with-meta
+                    ;  (partial core/hill-climber core/mutate-answer core/penalized-score)
+                    ;  {:label "hill_climber_penalized_score"})
+                    ;(with-meta (partial core/random-search core/score)
+                    ;  {:label "random_search"})
+                     ]
                    (map get-labelled-problem
                         ["knapPI_11_20_1000_4" "knapPI_13_20_1000_4" "knapPI_16_20_1000_4"
                          "knapPI_11_200_1000_4" "knapPI_13_200_1000_4" "knapPI_16_200_1000_4"])

@@ -121,6 +121,13 @@
           (recur new-answer (inc num-tries))
           (recur current-best (inc num-tries)))))))
 
+
+(defn random-restart-hill-climber [num-restarts mutator scorer instance max-tries] (apply max-key :total-value
+                                                                                     (repeatedly num-restarts
+                                                                                                 (fn [] (hill-climber mutator scorer instance max-tries)))
+                                                                                     ))
+
+;(hill-climber mutate-answer score knapPI_16_200_1000_1 1000)
 ; (time (random-search score knapPI_16_200_1000_1 100000
 ; ))
 
