@@ -163,11 +163,11 @@ library("ggplot2")
 ```
 
 ```{r}
-twenty_item_problems = subset(data_penalized_10_1000_5, Problem=="k_11_20_4" | Problem=="k_13_20_4" | Problem=="k_16_20_4")
+twenty_item_problems = subset(data_penalized_10_1000_5, Problem=="knapPI_11_20_1000_4" | Problem=="knapPI_13_20_1000_4" | Problem=="knapPI_16_20_1000_4")
 
 ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
 
-two_hundren_item_problems = subset(data_penalized_10_1000_5, Problem=="k_11_200_4" | Problem=="k_13_200_4" | Problem=="k_16_200_4")
+two_hundren_item_problems = subset(data_penalized_10_1000_5, Problem=="knapPI_11_200_1000_4" | Problem=="knapPI_13_200_1000_4" | Problem=="knapPI_16_200_1000_4")
 
 ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
 ```
@@ -222,11 +222,11 @@ library("ggplot2")
 ```
 
 ```{r}
-twenty_item_problems = subset(data_penalized_30_1000_3, Problem=="k_11_20_4" | Problem=="k_13_20_4" | Problem=="k_16_20_4")
+twenty_item_problems = subset(data_penalized_30_1000_3, Problem=="knapPI_11_20_1000_4" | Problem=="knapPI_13_20_1000_4" | Problem=="knapPI_16_20_1000_4")
 
 ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
 
-two_hundren_item_problems = subset(data_penalized_30_1000_3, Problem=="k_11_200_4" | Problem=="k_13_200_4" | Problem=="k_16_200_4")
+two_hundren_item_problems = subset(data_penalized_30_1000_3, Problem=="knapPI_11_200_1000_4" | Problem=="knapPI_13_200_1000_4" | Problem=="knapPI_16_200_1000_4")
 
 ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
 ```
@@ -282,11 +282,11 @@ library("ggplot2")
 ```
 
 ```{r}
-twenty_item_problems = subset(data_penalized_30_1000_5, Problem=="k_11_20_4" | Problem=="k_13_20_4" | Problem=="k_16_20_4")
+twenty_item_problems = subset(data_penalized_30_1000_5, Problem=="knapPI_11_20_1000_4" | Problem=="knapPI_13_20_1000_4" | Problem=="knapPI_16_20_1000_4")
 
 ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
 
-two_hundren_item_problems = subset(data_penalized_30_1000_5, Problem=="k_11_200_4" | Problem=="k_13_200_4" | Problem=="k_16_200_4")
+two_hundren_item_problems = subset(data_penalized_30_1000_5, Problem=="knapPI_11_200_1000_4" | Problem=="knapPI_13_200_1000_4" | Problem=="knapPI_16_200_1000_4")
 
 ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
 ```
@@ -341,11 +341,11 @@ library("ggplot2")
 ```
 
 ```{r}
-twenty_item_problems = subset(data_penalized_30_1000_20, Problem=="k_11_20_4" | Problem=="k_13_20_4" | Problem=="k_16_20_4")
+twenty_item_problems = subset(data_penalized_30_1000_20, Problem=="knapPI_11_20_1000_4" | Problem=="knapPI_13_20_1000_4" | Problem=="knapPI_16_20_1000_4")
 
 ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
 
-two_hundren_item_problems = subset(data_penalized_30_1000_20, Problem=="k_11_200_4" | Problem=="k_13_200_4" | Problem=="k_16_200_4")
+two_hundren_item_problems = subset(data_penalized_30_1000_20, Problem=="knapPI_11_200_1000_4" | Problem=="knapPI_13_200_1000_4" | Problem=="knapPI_16_200_1000_4")
 
 ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
 ```
@@ -401,11 +401,11 @@ library("ggplot2")
 ```
 
 ```{r}
-twenty_item_problems = subset(data_penalized_60_1000_5, Problem=="k_11_20_4" | Problem=="k_13_20_4" | Problem=="k_16_20_4")
+twenty_item_problems = subset(data_penalized_60_1000_5, Problem=="knapPI_11_20_1000_4" | Problem=="knapPI_13_20_1000_4" | Problem=="knapPI_16_20_1000_4")
 
 ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
 
-two_hundren_item_problems = subset(data_penalized_60_1000_5, Problem=="k_11_200_4" | Problem=="k_13_200_4" | Problem=="k_16_200_4")
+two_hundren_item_problems = subset(data_penalized_60_1000_5, Problem=="knapPI_11_200_1000_4" | Problem=="knapPI_13_200_1000_4" | Problem=="knapPI_16_200_1000_4")
 
 ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
 ```
@@ -460,11 +460,11 @@ library("ggplot2")
 ```
 
 ```{r}
-twenty_item_problems = subset(data_50_runs, Problem=="k_11_20_4" | Problem=="k_13_20_4" | Problem=="k_16_20_4")
+twenty_item_problems = subset(data_50_runs, Problem=="knapPI_11_20_1000_4" | Problem=="knapPI_13_20_1000_4" | Problem=="knapPI_16_20_1000_4")
 
 ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
 
-two_hundren_item_problems = subset(data_50_runs, Problem=="k_11_200_4" | Problem=="k_13_200_4" | Problem=="k_16_200_4")
+two_hundren_item_problems = subset(data_50_runs, Problem=="knapPI_11_200_1000_4" | Problem=="knapPI_13_200_1000_4" | Problem=="knapPI_16_200_1000_4")
 
 ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
 ```
