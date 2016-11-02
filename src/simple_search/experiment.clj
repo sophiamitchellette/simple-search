@@ -60,7 +60,7 @@
   where you replace 30 and 1000 with the desired number of repetitions
   and maximum answers.
   "
-  [num-repetitions max-answers]
+  [num-repetitions max-answers num-restarts]
   ; This is necessary to "move" us into this namespace. Otherwise we'll
   ; be in the "user" namespace, and the references to the problems won't
   ; resolve propertly.
@@ -73,13 +73,13 @@
                      ; (partial core/random-restart-hill-climber 5 core/mutate-answer core/score)
                     ;  {:label "random_restart_hill_climber_cliff_score"})
                      (with-meta
-                      (partial core/random-restart-hill-climber 20 core/mutate-answer core/penalized-score)
+                      (partial core/random-restart-hill-climber (Integer/parseInt num-restarts) core/mutate-answer core/penalized-score)
                       {:label "random_restart_hill_climber_penalized_score"})
-                    ;(with-meta
-                    ;  (partial core/hill-climber core/mutate-answer core/penalized-score)
-                    ;  {:label "hill_climber_penalized_score"})
-                    ;(with-meta (partial core/random-search core/score)
-                    ;  {:label "random_search"})
+                    (with-meta
+                      (partial core/hill-climber core/mutate-answer core/penalized-score)
+                      {:label "hill_climber_penalized_score"})
+                    (with-meta (partial core/random-search core/score)
+                      {:label "random_search"})
                      ]
                    (map get-labelled-problem
                         ["knapPI_11_20_1000_4" "knapPI_13_20_1000_4" "knapPI_16_20_1000_4"

@@ -4,114 +4,80 @@ authors: "Sydney Richards and Sophia Mitchellette"
 date: "October 31, 2016"
 output: html_document
 ---
-// 1 random_restart_cliff_score_10_1000_3_DataSet
-```{r}
-data_cliff_10_1000_3 <- read.csv("../data/random_restart_cliff_score_10_1000_3_DataSet.txt", sep="")
-```
+# Introduction
 
-```{r, echo=FALSE}
-plot(data_cliff_10_1000_3$Score ~ data_cliff_10_1000_3$Search_method,
+For these experiments we tested hill climber with penalized scoring, random search with cliff scoring and our own random restart hill climber with penalized scoring. We set our number of repetitions to 30, our number of tries to 1000 and our random-restart value to 5.
+
+# Experimental Setup
+
+We applied our random restart hill climber to these knapsack problems:
+
+* `knapPI_11_20_1000_4`
+* `knapPI_13_20_1000_4` 
+* `knapPI_16_20_1000_4`
+* `knapPI_11_200_1000_4`
+* `knapPI_13_200_1000_4`
+* `knapPI_16_200_1000_4`
+
+Half of these are 20 item problems, and the other half have 200 items.
+
+# Results
+
+The plot below shows that hill-climber-penalized-scoring and random-restart-hill-climber-penalized-scoring both return negative values, while random-search cliff scoring does not. So the former methods are sometimes unable to make their way out of illegal solutions within the number of tries allowed, while the latter method (random-search-cliff-scoring) never returns illegal solutions.
+
+Random restart hill climber has the most variation in it's results of the three search methods. While regular hill climber has slightly more concentrated variation, regular hill climber does have very high and low outlier results. Random search has the least variation and only outliers in the positive direction.
+
+```{r}
+dataSet <- read.csv("../data/alltests_30_1000_5.txt", sep="")
+
+plot(dataSet$Score ~ dataSet$Search_method,
      xlab="Searcher", ylab="Score")
 ```
 
+When we remove negative values, it's easier to compare the penalized and cliff scores. Here we see that while random-restart-hill-climber remains the method with the most variation, it's upper values are now outliers. Regular hill climber's middle 50% of values are higher on average than random-restart's. Regular hill-climber could arguably be better because it returns zero with lower frequency. Random-search with cliff scoring has the lowest values on average, and returns zero with the most frequency.
 
-// 2 random_restart_cliff_score_10_1000_5_DataSet
 ```{r}
-data_cliff_10_1000_5 <- read.csv("../data/random_restart_cliff_score_10_1000_5_DataSet.txt", sep="")
-```
+dataSet$Non_negative_score = ifelse(dataSet$Score<0, 0, dataSet$Score)
 
-```{r, echo=FALSE}
-plot(data_cliff_10_1000_5$Score ~ data_cliff_10_1000_5$Search_method,
+plot(dataSet$Non_negative_score ~ dataSet$Search_method,
      xlab="Searcher", ylab="Score")
 ```
 
-
-// 3 random_restart_cliff_score_30_1000_3_DataSet
-```{r}
-data_cliff_30_1000_3 <- read.csv("../data/random_restart_cliff_score_30_1000_3_DataSet.txt", sep="")
-```
-
-```{r, echo=FALSE}
-plot(data_cliff_30_1000_3$Score ~ data_cliff_30_1000_3$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-
-// 4 random_restart_cliff_score_30_1000_5_DataSet
-```{r}
-data_cliff_30_1000_5 <- read.csv("../data/random_restart_cliff_score_30_1000_5_DataSet.txt", sep="")
-```
-
-```{r, echo=FALSE}
-plot(data_cliff_30_1000_5$Score ~ data_cliff_30_1000_5$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-
-// 5 random_restart_cliff_score_30_1000_20_DataSet
-```{r}
-data_cliff_30_1000_20 <- read.csv("../data/random_restart_cliff_score_30_1000_20_DataSet.txt", sep="")
-```
-
-```{r, echo=FALSE}
-plot(data_cliff_30_1000_20$Score ~ data_cliff_30_1000_20$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-// 6 random_restart_cliff_score_60_1000_5_DataSet
-```{r}
-data_cliff_60_1000_5 <- read.csv("../data/random_restart_cliff_score_60_1000_5_DataSet.txt", sep="")
-```
-
-```{r, echo=FALSE}
-plot(data_cliff_60_1000_5$Score ~ data_cliff_60_1000_5$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-// 7 random_restart_cliff_score_60_1000_20_DataSet
-```{r}
-data_cliff_60_1000_20 <- read.csv("../data/random_restart_cliff_score_60_1000_20_DataSet.txt", sep="")
-```
-
-```{r, echo=FALSE}
-plot(data_cliff_60_1000_20$Score ~ data_cliff_60_1000_20$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-
-// 8 random_restart_penalized_score_10_1000_3_DataSet
+We will use a wilcox test to check our "eyeball statistics." The wilcox test shows that there is a lot of variation between the different methods. Significantly, regular hill-climber outperforms random-restart hill climber (this is likely due to the low max answers value, were we to conduct these tests with a greater value for maximum answers random restart hill climber would have a better competitive advantage to hill climber). Random-search performs significantly worse than both regular and random restart hill climber. The difference between random-search and the hill climbers is much more significant than the difference between the hill climbers.
 
 ```{r}
-data_penalized_10_1000_3 <- read.csv("../data/random_restart_penalized_score_10_1000_3_DataSet.txt", sep="")
-
-plot(data_penalized_10_1000_3$Score ~ data_penalized_10_1000_3$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-```{r}
-data_penalized_10_1000_3$Non_negative_score = ifelse(data_penalized_10_1000_3$Score<0, 0, data_penalized_10_1000_3$Score)
-
-plot(data_penalized_10_1000_3$Non_negative_score ~ data_penalized_10_1000_3$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-```{r}
-pairwise.wilcox.test(data_penalized_10_1000_3$Non_negative_score, data_penalized_10_1000_3$Search_method)
+pairwise.wilcox.test(dataSet$Non_negative_score, dataSet$Search_method)
 ```
 
 ```{r}
 library("ggplot2")
 ```
 
+With twenty items:
+
+knapPI_11_20_1000_4: It looks to be that random restart had the higher median score. Random-search looks to have had the most variation, while it appears that random-restart had the most concentrated return values.
+
+knapPI_13_20_1000_4: Random restart hill climber appears to have performed the best and most consitently, then regular hill climber and lastly random-search. Again, random search had the most variation and the lowest scores.
+
+knapPI_16_20_1000_4: Again, random search had the most variation and lowest scores, while random restart appears to have performed the best and most consistently.
+
+knapPI_11_200_1000_4: With more items, random restart and regular hill climber appear to be performing much more closely, each with significant variation in returned solutions. Random search consitently returned zero, and appears to have had almost no variation.
+
+knapPI_13_200_1000_4: With more items, random restart and random search on average performed the same and significantly worse than regular hill climber. Although random restart had some outliers performing at par with the average regular hill climber, regular hill climber performed the best.
+
+knapPI_16_200_1000_4: With more items random search had almost no variation and returns zeros. Random restart appears to have performed slightly better than regular hill climber, and both had significant variation in their returned scores.
+
 ```{r}
-twenty_item_problems = subset(data_penalized_10_1000_3, Problem=="knapPI_11_20_1000_4" | Problem=="knapPI_13_20_1000_4" | Problem=="knapPI_16_20_1000_4")
+twenty_item_problems = subset(dataSet, Problem=="knapPI_11_20_1000_4" | Problem=="knapPI_13_20_1000_4" | Problem=="knapPI_16_20_1000_4")
 
 ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
 
-two_hundren_item_problems = subset(data_penalized_10_1000_3, Problem=="knapPI_11_200_1000_4" | Problem=="knapPI_13_200_1000_4" | Problem=="knapPI_16_200_1000_4")
+two_hundren_item_problems = subset(dataSet, Problem=="knapPI_11_200_1000_4" | Problem=="knapPI_13_200_1000_4" | Problem=="knapPI_16_200_1000_4")
 
 ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
 ```
+
+When comparing all the problems, in twenty item problems all methods have variation. Increasing the number of items impacts all methods negatively, but affects random search the most, as random search appears to lose all variation and consist entirely of zero solutions. Both hill climbers have lower median scores with 200 items. The median 50% of data favors random restart at 20 items and regular hill climber at 200 items.
 
 ```{r}
 ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Max_evals)
@@ -119,64 +85,11 @@ ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxp
 ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Max_evals)
 ```
 
-```{r}
-ggplot(twenty_item_problems, aes(factor(Max_evals), Non_negative_score)) + geom_boxplot() + facet_grid(Problem ~ Search_method)
+For 20 items:
+knapPI_11_20_1000_4 had the least variation between search methods. knapPI_13_20_1000_4 had little variation between the hill climbers, but random search performed significantly lower. knapPI_16_20_1000_4 had more variation between the hill climbers, with random restart appearing to outperform regular hill climber. Random search continued to perform the worst.
 
-ggplot(two_hundren_item_problems, aes(factor(Max_evals), Non_negative_score)) + geom_boxplot() + facet_grid(Problem ~ Search_method)
-```
-
-```{r}
-pairwise.wilcox.test(data_penalized_10_1000_3$Non_negative_score, interaction(data_penalized_10_1000_3$Search_method, data_penalized_10_1000_3$Problem, data_penalized_10_1000_3$Max_evals))
-```
-
-```{r}
-library("rpart")
-library("rpart.plot")
-
-rp <- rpart(Non_negative_score ~ Search_method + Problem + Max_evals, data=data_penalized_10_1000_3)
-rp
-rpart.plot(rp)
-```
-
-// 9 random_restart_penalized_score_10_1000_5_DataSet
-
-```{r}
-data_penalized_10_1000_5 <- read.csv("../data/random_restart_penalized_score_10_1000_5_DataSet.txt", sep="")
-
-plot(data_penalized_10_1000_5$Score ~ data_penalized_10_1000_5$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-```{r}
-data_penalized_10_1000_5$Non_negative_score = ifelse(data_penalized_10_1000_5$Score<0, 0, data_penalized_10_1000_5$Score)
-
-plot(data_penalized_10_1000_5$Non_negative_score ~ data_penalized_10_1000_5$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-```{r}
-pairwise.wilcox.test(data_penalized_10_1000_5$Non_negative_score, data_penalized_10_1000_5$Search_method)
-```
-
-```{r}
-library("ggplot2")
-```
-
-```{r}
-twenty_item_problems = subset(data_penalized_10_1000_5, Problem=="knapPI_11_20_1000_4" | Problem=="knapPI_13_20_1000_4" | Problem=="knapPI_16_20_1000_4")
-
-ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
-
-two_hundren_item_problems = subset(data_penalized_10_1000_5, Problem=="knapPI_11_200_1000_4" | Problem=="knapPI_13_200_1000_4" | Problem=="knapPI_16_200_1000_4")
-
-ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
-```
-
-```{r}
-ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Max_evals)
-
-ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Max_evals)
-```
+For 200 items:
+In all problems, random search failed to return any successful solutions. In knapPI_11_200_1000_4 the hill climbers were very similar but regular hill climber appears to have a higher median. In knapPI_13_200_1000_4 regular hill climber more consistently outperformed random restart hill climber. Both hill climbers had outliers, though regular hill climbers outliers were failures and random restart's were successes. Both hill climbers performed about the same on knapPI_16_200_1000_4.
 
 ```{r}
 ggplot(twenty_item_problems, aes(factor(Max_evals), Non_negative_score)) + geom_boxplot() + facet_grid(Problem ~ Search_method)
@@ -184,312 +97,19 @@ ggplot(twenty_item_problems, aes(factor(Max_evals), Non_negative_score)) + geom_
 ggplot(two_hundren_item_problems, aes(factor(Max_evals), Non_negative_score)) + geom_boxplot() + facet_grid(Problem ~ Search_method)
 ```
 
+The wilcox test appears to confirm most of our observations (eyeball statistics).
+
 ```{r}
-pairwise.wilcox.test(data_penalized_10_1000_5$Non_negative_score, interaction(data_penalized_10_1000_5$Search_method, data_penalized_10_1000_5$Problem, data_penalized_10_1000_5$Max_evals))
+pairwise.wilcox.test(dataSet$Non_negative_score, interaction(dataSet$Search_method, dataSet$Problem, dataSet$Max_evals))
 ```
+
+According to this plot, the most important choice is random search, but between the hill climbers, the choice of which problem makes the greatest difference in the outcome. We believe this is because random restart needs more retries to catch up to regular hill climber, and that the number we chose makes both searchers close in terms of results.
 
 ```{r}
 library("rpart")
 library("rpart.plot")
 
-rp <- rpart(Non_negative_score ~ Search_method + Problem + Max_evals, data=data_penalized_10_1000_5)
-rp
-rpart.plot(rp)
-```
-
-// 10 random_restart_penalized_score_30_1000_3_DataSet
-
-```{r}
-data_penalized_30_1000_3 <- read.csv("../data/random_restart_penalized_score_30_1000_3.txt", sep="")
-
-plot(data_penalized_30_1000_3$Score ~ data_penalized_30_1000_3$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-```{r}
-data_penalized_30_1000_3$Non_negative_score = ifelse(data_penalized_30_1000_3$Score<0, 0, data_penalized_30_1000_3$Score)
-
-plot(data_penalized_30_1000_3$Non_negative_score ~ data_penalized_30_1000_3$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-```{r}
-pairwise.wilcox.test(data_penalized_30_1000_3$Non_negative_score, data_penalized_30_1000_3$Search_method)
-```
-
-```{r}
-library("ggplot2")
-```
-
-```{r}
-twenty_item_problems = subset(data_penalized_30_1000_3, Problem=="knapPI_11_20_1000_4" | Problem=="knapPI_13_20_1000_4" | Problem=="knapPI_16_20_1000_4")
-
-ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
-
-two_hundren_item_problems = subset(data_penalized_30_1000_3, Problem=="knapPI_11_200_1000_4" | Problem=="knapPI_13_200_1000_4" | Problem=="knapPI_16_200_1000_4")
-
-ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
-```
-
-```{r}
-ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Max_evals)
-
-ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Max_evals)
-```
-
-```{r}
-ggplot(twenty_item_problems, aes(factor(Max_evals), Non_negative_score)) + geom_boxplot() + facet_grid(Problem ~ Search_method)
-
-ggplot(two_hundren_item_problems, aes(factor(Max_evals), Non_negative_score)) + geom_boxplot() + facet_grid(Problem ~ Search_method)
-```
-
-```{r}
-pairwise.wilcox.test(data_penalized_30_1000_3$Non_negative_score, interaction(data_penalized_30_1000_3$Search_method, data_penalized_30_1000_3$Problem, data_penalized_30_1000_3$Max_evals))
-```
-
-```{r}
-library("rpart")
-library("rpart.plot")
-
-rp <- rpart(Non_negative_score ~ Search_method + Problem + Max_evals, data=data_penalized_30_1000_3)
-rp
-rpart.plot(rp)
-```
-
-
-// 11 random_restart_penalized_score_30_1000_5_DataSet
-
-```{r}
-data_penalized_30_1000_5 <- read.csv("../data/random_restart_penalized_score_30_1000_5_DataSet.txt", sep="")
-
-plot(data_penalized_30_1000_5$Score ~ data_penalized_30_1000_5$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-```{r}
-data_penalized_30_1000_5$Non_negative_score = ifelse(data_penalized_30_1000_5$Score<0, 0, data_penalized_30_1000_5$Score)
-
-plot(data_penalized_30_1000_5$Non_negative_score ~ data_penalized_30_1000_5$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-```{r}
-pairwise.wilcox.test(data_penalized_30_1000_5$Non_negative_score, data_penalized_30_1000_5$Search_method)
-```
-
-```{r}
-library("ggplot2")
-```
-
-```{r}
-twenty_item_problems = subset(data_penalized_30_1000_5, Problem=="knapPI_11_20_1000_4" | Problem=="knapPI_13_20_1000_4" | Problem=="knapPI_16_20_1000_4")
-
-ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
-
-two_hundren_item_problems = subset(data_penalized_30_1000_5, Problem=="knapPI_11_200_1000_4" | Problem=="knapPI_13_200_1000_4" | Problem=="knapPI_16_200_1000_4")
-
-ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
-```
-
-```{r}
-ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Max_evals)
-
-ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Max_evals)
-```
-
-```{r}
-ggplot(twenty_item_problems, aes(factor(Max_evals), Non_negative_score)) + geom_boxplot() + facet_grid(Problem ~ Search_method)
-
-ggplot(two_hundren_item_problems, aes(factor(Max_evals), Non_negative_score)) + geom_boxplot() + facet_grid(Problem ~ Search_method)
-```
-
-```{r}
-pairwise.wilcox.test(data_penalized_30_1000_5$Non_negative_score, interaction(data_penalized_30_1000_5$Search_method, data_penalized_30_1000_5$Problem, data_penalized_30_1000_5$Max_evals))
-```
-
-```{r}
-library("rpart")
-library("rpart.plot")
-
-rp <- rpart(Non_negative_score ~ Search_method + Problem + Max_evals, data=data_penalized_30_1000_5)
-rp
-rpart.plot(rp)
-```
-
-// 12 random_restart_penalized_score_30_1000_20_DataSet
-
-```{r}
-data_penalized_30_1000_20 <- read.csv("../data/random_restart_penalized_score_30_1000_20_DataSet.txt", sep="")
-
-plot(data_penalized_30_1000_20$Score ~ data_penalized_30_1000_20$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-```{r}
-data_penalized_30_1000_20$Non_negative_score = ifelse(data_penalized_30_1000_20$Score<0, 0, data_penalized_30_1000_20$Score)
-
-plot(data_penalized_30_1000_20$Non_negative_score ~ data_penalized_30_1000_20$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-```{r}
-pairwise.wilcox.test(data_penalized_30_1000_20$Non_negative_score, data_penalized_30_1000_20$Search_method)
-```
-
-```{r}
-library("ggplot2")
-```
-
-```{r}
-twenty_item_problems = subset(data_penalized_30_1000_20, Problem=="knapPI_11_20_1000_4" | Problem=="knapPI_13_20_1000_4" | Problem=="knapPI_16_20_1000_4")
-
-ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
-
-two_hundren_item_problems = subset(data_penalized_30_1000_20, Problem=="knapPI_11_200_1000_4" | Problem=="knapPI_13_200_1000_4" | Problem=="knapPI_16_200_1000_4")
-
-ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
-```
-
-```{r}
-ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Max_evals)
-
-ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Max_evals)
-```
-
-```{r}
-ggplot(twenty_item_problems, aes(factor(Max_evals), Non_negative_score)) + geom_boxplot() + facet_grid(Problem ~ Search_method)
-
-ggplot(two_hundren_item_problems, aes(factor(Max_evals), Non_negative_score)) + geom_boxplot() + facet_grid(Problem ~ Search_method)
-```
-
-```{r}
-pairwise.wilcox.test(data_penalized_30_1000_20$Non_negative_score, interaction(data_penalized_30_1000_20$Search_method, data_penalized_30_1000_20$Problem, data_penalized_30_1000_20$Max_evals))
-```
-
-```{r}
-library("rpart")
-library("rpart.plot")
-
-rp <- rpart(Non_negative_score ~ Search_method + Problem + Max_evals, data=data_penalized_30_1000_20)
-rp
-rpart.plot(rp)
-```
-
-
-// 13 random_restart_penalized_score_60_1000_5_DataSet
-
-```{r}
-data_penalized_60_1000_5 <- read.csv("../data/random_restart_penalized_score_60_1000_5_DataSet.txt", sep="")
-
-plot(data_penalized_60_1000_5$Score ~ data_penalized_60_1000_5$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-```{r}
-data_penalized_60_1000_5$Non_negative_score = ifelse(data_penalized_60_1000_5$Score<0, 0, data_penalized_60_1000_5$Score)
-
-plot(data_penalized_60_1000_5$Non_negative_score ~ data_penalized_60_1000_5$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-```{r}
-pairwise.wilcox.test(data_penalized_60_1000_5$Non_negative_score, data_penalized_60_1000_5$Search_method)
-```
-
-```{r}
-library("ggplot2")
-```
-
-```{r}
-twenty_item_problems = subset(data_penalized_60_1000_5, Problem=="knapPI_11_20_1000_4" | Problem=="knapPI_13_20_1000_4" | Problem=="knapPI_16_20_1000_4")
-
-ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
-
-two_hundren_item_problems = subset(data_penalized_60_1000_5, Problem=="knapPI_11_200_1000_4" | Problem=="knapPI_13_200_1000_4" | Problem=="knapPI_16_200_1000_4")
-
-ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
-```
-
-```{r}
-ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Max_evals)
-
-ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Max_evals)
-```
-
-```{r}
-ggplot(twenty_item_problems, aes(factor(Max_evals), Non_negative_score)) + geom_boxplot() + facet_grid(Problem ~ Search_method)
-
-ggplot(two_hundren_item_problems, aes(factor(Max_evals), Non_negative_score)) + geom_boxplot() + facet_grid(Problem ~ Search_method)
-```
-
-```{r}
-pairwise.wilcox.test(data_penalized_60_1000_5$Non_negative_score, interaction(data_penalized_60_1000_5$Search_method, data_penalized_60_1000_5$Problem, data_penalized_60_1000_5$Max_evals))
-```
-
-```{r}
-library("rpart")
-library("rpart.plot")
-
-rp <- rpart(Non_negative_score ~ Search_method + Problem + Max_evals, data=data_penalized_60_1000_5)
-rp
-rpart.plot(rp)
-```
-
-// 14 random_restart_penalized_score_60_1000_20_DataSet
-
-```{r}
-data_50_runs <- read.csv("../data/random_restart_penalized_score_60_1000_20_DataSet.txt", sep="")
-
-plot(data_50_runs$Score ~ data_50_runs$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-```{r}
-data_50_runs$Non_negative_score = ifelse(data_50_runs$Score<0, 0, data_50_runs$Score)
-
-plot(data_50_runs$Non_negative_score ~ data_50_runs$Search_method,
-     xlab="Searcher", ylab="Score")
-```
-
-```{r}
-pairwise.wilcox.test(data_50_runs$Non_negative_score, data_50_runs$Search_method)
-```
-
-```{r}
-library("ggplot2")
-```
-
-```{r}
-twenty_item_problems = subset(data_50_runs, Problem=="knapPI_11_20_1000_4" | Problem=="knapPI_13_20_1000_4" | Problem=="knapPI_16_20_1000_4")
-
-ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
-
-two_hundren_item_problems = subset(data_50_runs, Problem=="knapPI_11_200_1000_4" | Problem=="knapPI_13_200_1000_4" | Problem=="knapPI_16_200_1000_4")
-
-ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Problem)
-```
-
-```{r}
-ggplot(twenty_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Max_evals)
-
-ggplot(two_hundren_item_problems, aes(Search_method, Non_negative_score)) + geom_boxplot() + facet_grid(. ~ Max_evals)
-```
-
-```{r}
-ggplot(twenty_item_problems, aes(factor(Max_evals), Non_negative_score)) + geom_boxplot() + facet_grid(Problem ~ Search_method)
-
-ggplot(two_hundren_item_problems, aes(factor(Max_evals), Non_negative_score)) + geom_boxplot() + facet_grid(Problem ~ Search_method)
-```
-
-```{r}
-pairwise.wilcox.test(data_50_runs$Non_negative_score, interaction(data_50_runs$Search_method, data_50_runs$Problem, data_50_runs$Max_evals))
-```
-
-```{r}
-library("rpart")
-library("rpart.plot")
-
-rp <- rpart(Non_negative_score ~ Search_method + Problem + Max_evals, data=data_50_runs)
+rp <- rpart(Non_negative_score ~ Search_method + Problem + Max_evals, data=dataSet)
 rp
 rpart.plot(rp)
 ```

@@ -1,0 +1,23 @@
+---
+title: "Knapsack experiments"
+authors: "Sydney Richards and Sophia Mitchellette"
+date: "November 2, 2016"
+output: html_document
+---
+
+When we remove negative values, it's easier to compare the penalized and cliff scores. Here we see that while random-restart-hill-climber remains the method with the most variation, it's upper values are now outliers. Regular hill climber's middle 50% of values are higher on average than random-restart's. Regular hill-climber could arguably be better because it returns zero with lower frequency. Random-search with cliff scoring has the lowest values on average, and returns zero with the most frequency.
+
+```{r}
+dataSet <- read.csv("../data/alltests_30_1000_5.txt", sep="")
+
+dataSet$Non_negative_score = ifelse(dataSet$Score<0, 0, dataSet$Score)
+
+plot(dataSet$Non_negative_score ~ dataSet$Search_method,
+     xlab="Searcher", ylab="Score")
+```
+
+We will use a wilcox test to check our "eyeball statistics." The wilcox test shows that there is a lot of variation between the different methods. Significantly, regular hill-climber outperforms random-restart hill climber (this is likely due to the low max answers value, were we to conduct these tests with a greater value for maximum answers random restart hill climber would have a better competitive advantage to hill climber). Random-search performs significantly worse than both regular and random restart hill climber. The difference between random-search and the hill climbers is much more significant than the difference between the hill climbers.
+
+```{r}
+pairwise.wilcox.test(dataSet$Non_negative_score, dataSet$Search_method)
+```
