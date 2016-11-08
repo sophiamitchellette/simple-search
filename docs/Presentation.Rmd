@@ -1,8 +1,8 @@
 ---
 title: "Knapsack experiments"
-authors: "Sydney Richards and Sophia Mitchellette"
 date: "November 2, 2016"
-output: html_document
+output: pdf_document
+authors: Sydney Richards and Sophia Mitchellette
 ---
 
 When we remove negative values, it's easier to compare the penalized and cliff scores. Here we see that while random-restart-hill-climber remains the method with the most variation, it's upper values are now outliers. Regular hill climber's middle 50% of values are higher on average than random-restart's. Regular hill-climber could arguably be better because it returns zero with lower frequency. Random-search with cliff scoring has the lowest values on average, and returns zero with the most frequency.
